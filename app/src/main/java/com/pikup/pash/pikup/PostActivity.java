@@ -6,14 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.storage.StorageReference;
+
+import static com.pikup.pash.pikup.ChooseCategoryActivity.KEY_CATEGORY;
 
 public class PostActivity extends AppCompatActivity {
     private Button captureButton;
     private Button uploadButton;
     private ProgressBar progressBar;
     private StorageReference myStorage;
+    private String itemCategory;
 
     private static final int GALLERY_INTENT = 2;
 
@@ -29,7 +33,14 @@ public class PostActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PostActivity.this, ChooseCategoryActivity.class));
+             /*   Intent intent = getIntent();
+                if (null != intent) {
+                    itemCategory = intent.getStringExtra(KEY_CATEGORY);
+                }//end if*/
+               startActivity(new Intent(PostActivity.this, ChooseCategoryActivity.class));
+              /*  intent = new Intent(PostActivity.this, ChooseCategoryActivity.class);
+                intent.putExtra(KEY_CATEGORY,itemCategory);
+                startActivity(intent);*/
 
             }
         });
