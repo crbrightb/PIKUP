@@ -164,11 +164,7 @@ public class CaptureImageActivity extends AppCompatActivity {
 
         myDB.child("/Posts/" + key).setValue(p);
 
-
-        /*Intent intent = new Intent(CaptureImageActivity.this, PostActivity.class);
-        intent.putExtra(KEY_CATEGORY,getItemCategory());
-        startActivity(intent);*/
-      startActivity(new Intent(CaptureImageActivity.this,PostActivity.class));
+        startActivity(new Intent(CaptureImageActivity.this,PostActivity.class));
         Toast.makeText(CaptureImageActivity.this, "Thanks for Giving", Toast.LENGTH_LONG).show();
         finish();
     }

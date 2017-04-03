@@ -1,10 +1,9 @@
+
 package com.pikup.pash.pikup;
 
 import android.content.Intent;
-import android.icu.util.ULocale;
-import android.support.annotation.StringDef;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -14,7 +13,7 @@ public class ChooseCategoryActivity extends AppCompatActivity
 {
     private Button nextPageButton;
     public String category;
- public static final String KEY_CATEGORY="category";
+    public static final String KEY_CATEGORY="category";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

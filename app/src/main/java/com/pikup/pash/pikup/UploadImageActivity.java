@@ -124,7 +124,7 @@ public class UploadImageActivity extends AppCompatActivity {
                 image_path,
                 itemCategory,
                 FirebaseAuth.getInstance().getCurrentUser().getUid());
-                myDB.child("/Posts/" + key).setValue(p);
+        myDB.child("/Posts/" + key).setValue(p);
 
 
         startActivity(new Intent(UploadImageActivity.this, PostActivity.class));
