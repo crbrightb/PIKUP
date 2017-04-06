@@ -1,7 +1,11 @@
 package com.pikup.pash.pikup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,11 +30,32 @@ public class UserInformationActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList information;
     private UserInfo userInfo;
+    private Toolbar toolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.userprofilemenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_delete) {
+            startActivity(new Intent(UserInformationActivity.this, DeleteAggrement.class));
+        }
+        if (item.getItemId() == R.id.menu_home){
+            startActivity(new Intent(UserInformationActivity.this, HomeActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         mListView = (ListView) findViewById(R.id.listview);
 
@@ -45,6 +70,8 @@ public class UserInformationActivity extends AppCompatActivity {
         databaseReference.child("Users/" + userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+
                 userInfo = dataSnapshot.getValue(UserInfo.class);
                 information.add(userInfo.getFirstName());
                 information.add(userInfo.getLastName());
@@ -66,4 +93,5 @@ public class UserInformationActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, information);
         mListView.setAdapter(adapter);
     }
+
 }

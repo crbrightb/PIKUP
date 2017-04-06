@@ -51,7 +51,6 @@ public class ItemFeedFragment extends Fragment {
 	RecyclerView reView;
 
 
-
 	@Override
 
 	public void onAttach(Context context) {
@@ -84,7 +83,11 @@ public class ItemFeedFragment extends Fragment {
 		llm = new LinearLayoutManager(context);
 		reView.setLayoutManager(llm);
 		reAdapter = new RecyclerAdapter();
-		reAdapter.initPosts();
+		Intent i = getActivity().getIntent();
+		if (i.hasExtra("category"))
+			reAdapter.filterBy(i.getStringExtra("category"));
+		else
+			reAdapter.initPosts();
 		reView.setAdapter(reAdapter);
 		Log.d("CREATEVIEW", "onCreateView is done");
 		return view;
@@ -112,6 +115,17 @@ public class ItemFeedFragment extends Fragment {
 				} else
 					reAdapter.goFast();
 				break;
+			case R.id.menu_filter:
+				Intent intent = new Intent(context, FilterCategoryActivity.class);
+				startActivity(intent);
+				break;
+			case R.id.menu_home:
+				Intent intent1 = new Intent(context, HomeActivity.class);
+				startActivity(intent1);
+			break;
+			case R.id.menu_loc:
+				Intent intent2 = new Intent(context, FilterByLocation.class);
+				startActivity(intent2);
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -184,6 +198,32 @@ public class ItemFeedFragment extends Fragment {
 					for (DataSnapshot ds : dataSnapshot.getChildren()) {
 						Post p = ds.getValue(Post.class);
 						posts.add(p);
+					}
+					notifyDataSetChanged();
+					llm.scrollToPosition(0);
+
+				}
+
+				@Override
+				public void onCancelled(DatabaseError databaseError) {
+					Log.w("DBERROR", databaseError.toString());
+				}
+			});
+			Log.d("INITPOSTS", "called notifyDataSetChanged()");
+		}
+
+		public void filterBy(final String filter) {
+			Log.d("INITPOSTS", "called initPosts()");
+			final int k = posts.size();
+
+			dbr.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(DataSnapshot dataSnapshot) {
+					for (DataSnapshot ds : dataSnapshot.getChildren()) {
+						Post p = ds.getValue(Post.class);
+						String pcat = p.getPcat();
+						if (pcat.equals(filter))
+							posts.add(p);
 					}
 					notifyDataSetChanged();
 					llm.scrollToPosition(0);
@@ -271,5 +311,4 @@ public class ItemFeedFragment extends Fragment {
 			checkBox = (CheckBox) itemView.findViewById(R.id.item_check);
 		}
 	}
-
 }
